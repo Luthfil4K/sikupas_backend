@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+ 
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root@localhost:3306/dashboard"
+}
+
+
+model tbl_tim{
+                             
+  tim_id                    Int                             @id @default(autoincrement())
+  tim_nama                  String                          @db.Text
+  timKerja                  tbl_timkerja[]
+}
+model tbl_timkerja{
+  id                        Int                             @id @default(autoincrement())
+  tk_nip                    String                          @db.VarChar(64)
+  tk_tim                    Int                             @db.Int
+  tim                       tbl_tim                         @relation(fields: [tk_tim], references: [tim_id])
+  pegawai                   pegawai                         @relation(fields: [tk_nip], references: [nip])
+}
+model skp_skp{
+  id                        Int                             @id @default(autoincrement())
+  sasaran_kinerja           String                          @db.Text
+  indikator                 String                          @db.Text
+  realisasi                 String                          @db.Text
+  umpan_balik               String                          @db.Text
+  bulan                     String                          @db.VarChar(64)
+  tahun                     Int                             @db.Int
+  jenis                     String                          @db.Text
+  pegawai_nama              String                          @db.Text
+  pegawai_nip               String                          @db.VarChar(64)
+  pegawai_gol               String                          @db.VarChar(64)
+  pegawai_jabatan           String                          @db.Text
+  pegawai_unit              String                          @db.VarChar(64)
+  pejabat_nama              String                          @db.Text
+  pejabat_nip               Int                             @db.Int
+  pejabat_gol               String                          @db.VarChar(64)
+  pejabat_jabatan           String                          @db.VarChar(64)
+  pejabat_unit              String                          @db.VarChar(64)
+  pegawai                   pegawai                         @relation(fields: [pegawai_nip], references: [nip])
+  
+}
+model skp_uploadedfile{
+  id                        Int                             @id @default(autoincrement())
+  file                      String                          @db.Text
+  uploaded_at               String                          @db.Text
+}
+
+model pegawai{
+  nip                       String                          @id @db.Char(64) // Bisa disesuaikan sesuai format NIP
+  nama                      String                          @db.Text
+  jabatan                   String                          @db.VarChar(64)
+  wilayah                   String                          @db.VarChar(64)
+  golongan                  String                          @db.VarChar(64)
+  tmt                       String                          @db.VarChar(64)
+  status                    String                          @db.VarChar(64)
+  timkerja                  tbl_timkerja[]
+  skp                       skp_skp[]
+}
+
+
