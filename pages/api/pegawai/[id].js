@@ -18,6 +18,17 @@ export default async function handler(req, res) {
       const pegawai = await prisma.pegawai.findUnique({
         where: { nip: id.toString() }, 
         include: {
+            skp:{
+                select: {
+                    id:true,
+                    sasaran_kinerja: true,
+                    indikator: true,
+                    realisasi: true,
+                    bulan: true,
+                    tahun: true,
+                    pegawai_nip: true,
+                  }
+            },
             timkerja: {
               include: {
                 tim: {
@@ -29,6 +40,8 @@ export default async function handler(req, res) {
             },
           },
       });
+      
+  console.log(pegawai)
 
       if (!pegawai) {
         return res.status(404).json({ message: "Pegawai tidak ditemukan" });

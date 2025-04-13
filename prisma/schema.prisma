@@ -43,12 +43,11 @@ model skp_skp{
   pegawai_jabatan           String                          @db.Text
   pegawai_unit              String                          @db.VarChar(64)
   pejabat_nama              String                          @db.Text
-  pejabat_nip               Int                             @db.Int
+  pejabat_nip               String                          @db.VarChar(64)
   pejabat_gol               String                          @db.VarChar(64)
   pejabat_jabatan           String                          @db.VarChar(64)
   pejabat_unit              String                          @db.VarChar(64)
-  pegawai                   pegawai                         @relation(fields: [pegawai_nip], references: [nip])
-  
+  pegawai                   pegawai                         @relation("PegawaiToSkp", fields: [pegawai_nip], references: [nip])
 }
 model skp_uploadedfile{
   id                        Int                             @id @default(autoincrement())
@@ -65,7 +64,7 @@ model pegawai{
   tmt                       String                          @db.VarChar(64)
   status                    String                          @db.VarChar(64)
   timkerja                  tbl_timkerja[]
-  skp                       skp_skp[]
+  skp                       skp_skp[]                       @relation("PegawaiToSkp")
 }
 
 
