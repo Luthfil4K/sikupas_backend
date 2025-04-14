@@ -11,9 +11,10 @@ const getAllTimKerja = async (req, res) => {
         } 
       },
     });
+
     res.status(200).json(timKerja);
   } catch (err) {
-    res.status(500).json({ error: "Gagal mengambil data tim kerja" });
+    res.status(500).json({ error: "Gagal mengambil data tim kerja"+err });
   }
 };
 

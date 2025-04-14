@@ -4,7 +4,7 @@ import prisma from '../../../prisma/client';
 
 export default async function handler(req, res) {
     await NextCors(req, res, {
-        origin: 'http://localhost:5173',
+        origin: '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true, // ✅ Tambahkan ini
       });
@@ -29,6 +29,19 @@ export default async function handler(req, res) {
                     pegawai_nip: true,
                   }
             },
+            ckp:{
+              select:{
+                nip:true,
+                bulan:true,
+                tahun:true,
+                tglMulai:true,
+                tglSelesai:true,
+                kegiatan:true,
+                capaian:true,
+                dataDukung:true,
+              }
+            },
+           
             timkerja: {
               include: {
                 tim: {

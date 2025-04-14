@@ -57,7 +57,7 @@ model skp_uploadedfile{
 
 model pegawai{
   nip                       String                          @id @db.Char(64) // Bisa disesuaikan sesuai format NIP
-  nip_bps                   String                          @db.Char(64) // Bisa disesuaikan sesuai format NIP
+  nip_bps                   String                          @db.Char(64) @unique// Bisa disesuaikan sesuai format NIP
   nama                      String                          @db.Text
   jabatan                   String                          @db.VarChar(64)
   wilayah                   String                          @db.VarChar(64)
@@ -66,6 +66,7 @@ model pegawai{
   status                    String                          @db.VarChar(64)
   timkerja                  tbl_timkerja[]
   skp                       skp_skp[]                       @relation("PegawaiToSkp")
+  ckp                       skp_ckp[]                       @relation("PegawaiToCkp")
   // ckp                       ckp_ckp[]                       @relation("PegawaiToCkp")
 }
 
@@ -80,4 +81,22 @@ model pegawai{
 //   pegawai                   pegawai                         @relation("PegawaiToCkp", fields: [pegawai_nip], references: [nip_bps])
 // }
 
+
+model skp_ckp {
+    id                          BigInt                          @id @default(autoincrement())
+    nip                         String                          @db.VarChar(64)
+    bulan                       String                          @db.VarChar(20)
+    tahun                       String                          @db.VarChar(4)
+    tglMulai                    DateTime                        @db.DateTime(6) @map("tgl_mulai")
+    tglSelesai                  DateTime                        @db.DateTime(6) @map("tgl_selesai")
+    jamMulai                    DateTime                        @db.Time(6) @map("jam_mulai")
+    jamSelesai                  DateTime                        @db.Time(6) @map("jam_selesai")
+    rencanaKinerja              String                          @db.LongText @map("rencana_kinerja")
+    kegiatan                    String                          @db.LongText
+    progress                    Int                             
+    capaian                     String                          @db.LongText
+    dataDukung                  String                          @db.LongText @map("data_dukung")
+    capaianSkp                  String                          @db.VarChar(10) @map("capaian_skp")
+    pegawai                     pegawai                         @relation("PegawaiToCkp", fields: [nip], references: [nip_bps])
+}
 
