@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     await NextCors(req, res, {
         origin: '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        credentials: true, // ✅ Tambahkan ini
+        // credentials: true, // ✅ Tambahkan ini
       });
   const {
     query: { id },
