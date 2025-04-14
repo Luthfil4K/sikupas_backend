@@ -57,14 +57,27 @@ model skp_uploadedfile{
 
 model pegawai{
   nip                       String                          @id @db.Char(64) // Bisa disesuaikan sesuai format NIP
+  nip_bps                   String                          @db.Char(64) // Bisa disesuaikan sesuai format NIP
   nama                      String                          @db.Text
   jabatan                   String                          @db.VarChar(64)
   wilayah                   String                          @db.VarChar(64)
-  golongan                  String                          @db.VarChar(64)
-  tmt                       String                          @db.VarChar(64)
+  gol_akhir                 String                          @db.VarChar(64)
+  tmt_gol                   String                          @db.VarChar(64)
   status                    String                          @db.VarChar(64)
   timkerja                  tbl_timkerja[]
   skp                       skp_skp[]                       @relation("PegawaiToSkp")
+  // ckp                       ckp_ckp[]                       @relation("PegawaiToCkp")
 }
+
+// model ckp_ckp{
+//   nip                       String                          @id @db.Char(64) // Bisa disesuaikan sesuai format NIP
+//   nama                      String                          @db.Text
+//   tanggal                   String                          @db.VarChar(64)
+//   kegiatan                  String                          @db.VarChar(64)
+//   capaian                   String                          @db.VarChar(64)
+//   pegawai_nip               String                          @db.VarChar(64)
+
+//   pegawai                   pegawai                         @relation("PegawaiToCkp", fields: [pegawai_nip], references: [nip_bps])
+// }
 
 

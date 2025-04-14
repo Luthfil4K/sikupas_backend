@@ -4,8 +4,11 @@ const getAllTimKerja = async (req, res) => {
   try {
     const timKerja = await prisma.tbl_tim.findMany({
       include: {
-        timKerja: true,
-       
+        timKerja:{
+            include:{
+                pegawai:true
+            },
+        } 
       },
     });
     res.status(200).json(timKerja);
