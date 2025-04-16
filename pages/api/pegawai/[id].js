@@ -46,7 +46,11 @@ export default async function handler(req, res) {
               include: {
                 tim: {
                     include:{
-                        timKerja:true
+                        timKerja:{
+                          select:{
+                            pegawai:true
+                          }
+                        }
                     }
                 },
               },
