@@ -5,13 +5,12 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
- 
+  provider = "prisma-client-js" 
 }
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root@localhost:3306/dashboard"
+  url      = "mysql://apibali:@bps5100!@localhost:3306/db_skp"
 }
 
 
@@ -84,7 +83,7 @@ model pegawai{
 
 model skp_ckp {
     id                          BigInt                          @id @default(autoincrement())
-    nip                         String                          @db.VarChar(64)
+    nip_bps                     String                          @db.VarChar(64)
     bulan                       String                          @db.VarChar(20)
     tahun                       String                          @db.VarChar(4)
     tglMulai                    DateTime                        @db.DateTime(6) @map("tgl_mulai")
@@ -97,6 +96,6 @@ model skp_ckp {
     capaian                     String                          @db.LongText
     dataDukung                  String                          @db.LongText @map("data_dukung")
     capaianSkp                  String                          @db.VarChar(10) @map("capaian_skp")
-    pegawai                     pegawai                         @relation("PegawaiToCkp", fields: [nip], references: [nip_bps])
+    pegawai                     pegawai                         @relation("PegawaiToCkp", fields: [nip_bps], references: [nip_bps])
 }
 

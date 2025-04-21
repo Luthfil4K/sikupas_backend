@@ -29,35 +29,30 @@ export default async function handler(req, res) {
                     pegawai_nip: true,
                   }
             },
-            ckp:{
-              select:{
-                nip:true,
-                bulan:true,
-                tahun:true,
-                tglMulai:true,
-                tglSelesai:true,
-                kegiatan:true,
-                capaian:true,
-                dataDukung:true,
-              }
-            },
-           
-            timkerja: {
-              include: {
-                tim: {
-                    include:{
-                        timKerja:{
-                          select:{
-                            pegawai:true
-                          }
-                        }
-                    }
-                },
-              },
-            },
+            ckp : {
+		select : {
+			nip_bps : true,
+			bulan : true,
+			tahun : true,
+			tglMulai : true,
+			tglSelesai : true,
+			kegiatan : true,
+			capaian : true,
+			dataDukung : true,
+		}
+	    },
+	    timkerja : {
+		include : {
+			tim : {
+				include : {
+					timKerja : true
+				}
+			}
+		}
+	    },
           },
       });
-      
+
   console.log(pegawai)
 
       if (!pegawai) {
