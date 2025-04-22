@@ -9,7 +9,6 @@ const getAllSKP = async (req, res) => {
         pegawai: true,
       },
     });
-    console.log()
     res.status(200).json(dataSKP);
   } catch (err) {
     res.status(500).json({ error: "Gagal mengambil data pegawai" });
