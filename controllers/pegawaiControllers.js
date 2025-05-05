@@ -10,14 +10,7 @@ const getAllPegawai = async (req, res) => {
   
 
   try {
-    console.log("awalBulanSebelumnya")
-    console.log("awalBulanSebelumnya")
-    console.log(awalBulanSebelumnya)
-    console.log(awalBulanSebelumnya)
-    console.log(awalBulanSebelumnya)
-    console.log("awalBulanSebelumnya")
-    console.log("awalBulanSebelumnya")
-    console.log(awalBulanSebelumnya)
+
     const dataPegawai = await prisma.pegawai.findMany({
       include: {
         timkerja: true,
