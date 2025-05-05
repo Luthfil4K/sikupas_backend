@@ -10,6 +10,14 @@ const getAllPegawai = async (req, res) => {
   
 
   try {
+    console.log("awalBulanSebelumnya")
+    console.log("awalBulanSebelumnya")
+    console.log(awalBulanSebelumnya)
+    console.log(awalBulanSebelumnya)
+    console.log(awalBulanSebelumnya)
+    console.log("awalBulanSebelumnya")
+    console.log("awalBulanSebelumnya")
+    console.log(awalBulanSebelumnya)
     const dataPegawai = await prisma.pegawai.findMany({
       include: {
         timkerja: true,
@@ -17,6 +25,7 @@ const getAllPegawai = async (req, res) => {
           where: {
             tglMulai: {
               gte: awalBulanSebelumnya,
+              lte: akhirBulanSebelumnya,
             },
           },
           select: {
@@ -26,7 +35,6 @@ const getAllPegawai = async (req, res) => {
       },
     });
     
-    console.log()
     res.status(200).json(dataPegawai);
   } catch (err) {
     console.log(err)
