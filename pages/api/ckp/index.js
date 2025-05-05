@@ -3,9 +3,9 @@ import getAllCkp from '../../../controllers/ckpControllers';
 
 export default async function handler(req, res) {
   await NextCors(req, res, {
-    origin: '*',
+    origin: ['http://localhost:5173',process.env.ORIGIN_CORS_URL],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    // credentials: true, // ✅ Tambahkan ini
+    credentials: true, // ✅ Tambahkan ini
   });
 
   if (req.method === 'GET') {
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       console.log(data)
       res.status(200).json(data);
     } catch (err) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: `Internal Server Error ${err}` });
     }
   } else {
     res.status(405).json({ message: 'Method Not Allowed' });

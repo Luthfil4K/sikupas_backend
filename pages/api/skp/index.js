@@ -3,9 +3,9 @@ import getAllSKP from '../../../controllers/skpControllers';
 
 export default async function handler(req, res) {
   await NextCors(req, res, {
-    origin: '*',
+    origin: ['http://localhost:5173',process.env.ORIGIN_CORS_URL],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    // credentials: true, // ✅ Tambahkan ini
+    credentials: true, // ✅ Tambahkan ini
   });
 
   if (req.method === 'GET') {
