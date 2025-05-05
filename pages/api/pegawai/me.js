@@ -6,7 +6,7 @@ import NextCors from "nextjs-cors";
 export default async function handler(req, res) {
   // ⛑️ Setup CORS dulu, paling atas
   await NextCors(req, res, {
-    origin: "http://localhost:5173",
+    origin: ['http://localhost:5173',process.env.ORIGIN_CORS_URL],
     methods: ["GET", "OPTIONS"],
     allowedHeaders: ["Authorization", "Content-Type"],
     credentials: true,
@@ -25,11 +25,7 @@ export default async function handler(req, res) {
   try {
     // 🔐 Verifikasi token
     const user = verifyToken(req);
-console.log("ini user")
-console.log(user)
-console.log("ini user")
-console.log(user)
-console.log("ini user")
+
     // 🧠 Ambil data user dari DB
     const data = await prisma.pegawai.findUnique({
       where: { nip_bps: user.nip_bps },
