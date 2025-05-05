@@ -4,8 +4,10 @@ const getAllPegawai = async (req, res) => {
 
 
   const bulanIni = new Date();
-const awalBulan = new Date(bulanIni.getFullYear(), bulanIni.getMonth(), 1);
-const akhirBulan = new Date(bulanIni.getFullYear(), bulanIni.getMonth() + 1, 0);
+
+  const awalBulanSebelumnya = new Date(bulanIni.getFullYear(), bulanIni.getMonth() - 1, 1);
+  const akhirBulanSebelumnya = new Date(bulanIni.getFullYear(), bulanIni.getMonth(), 0);
+  
 
   try {
     const dataPegawai = await prisma.pegawai.findMany({
@@ -14,11 +16,11 @@ const akhirBulan = new Date(bulanIni.getFullYear(), bulanIni.getMonth() + 1, 0);
         ckp: {
           where: {
             tglMulai: {
-              gte: awalBulan,
+              gte: awalBulanSebelumnya,
             },
           },
           select: {
-            progress: true, // hanya ambil kolom progress
+            progress: true,
           },
         },
       },
