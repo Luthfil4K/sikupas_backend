@@ -10,92 +10,146 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://apibali:@bps5100!@localhost:3306/db_skp"
+  url      = "mysql://root:@localhost:3306/db_skp"
 }
 
 
 model tbl_tim{
                              
-  tim_id                    Int                             @id @default(autoincrement())
-  tim_nama                  String                          @db.Text
-  timKerja                  tbl_timkerja[]
+  tim_id                         Int                             @id @default(autoincrement())
+  tim_nama                       String                          @db.Text
+  timKerja                       tbl_timkerja[]
 }
 model tbl_timkerja{
-  id                        Int                             @id @default(autoincrement())
-  tk_nip                    String                          @db.VarChar(64)
-  tk_tim                    Int                             @db.Int
-  tim                       tbl_tim                         @relation(fields: [tk_tim], references: [tim_id])
-  pegawai                   pegawai                         @relation(fields: [tk_nip], references: [nip])
-}
-model skp_skp{
-  id                        Int                             @id @default(autoincrement())
-  sasaran_kinerja           String                          @db.Text
-  indikator                 String                          @db.Text
-  realisasi                 String                          @db.Text
-  umpan_balik               String                          @db.Text
-  bulan                     String                          @db.VarChar(64)
-  tahun                     Int                             @db.Int
-  jenis                     String                          @db.Text
-  pegawai_nama              String                          @db.Text
-  pegawai_nip               String                          @db.VarChar(64)
-  pegawai_gol               String                          @db.VarChar(64)
-  pegawai_jabatan           String                          @db.Text
-  pegawai_unit              String                          @db.VarChar(64)
-  pejabat_nama              String                          @db.Text
-  pejabat_nip               String                          @db.VarChar(64)
-  pejabat_gol               String                          @db.VarChar(64)
-  pejabat_jabatan           String                          @db.VarChar(64)
-  pejabat_unit              String                          @db.VarChar(64)
-  pegawai                   pegawai                         @relation("PegawaiToSkp", fields: [pegawai_nip], references: [nip])
-}
-model skp_uploadedfile{
-  id                        Int                             @id @default(autoincrement())
-  file                      String                          @db.Text
-  uploaded_at               String                          @db.Text
+  id                             Int                             @id @default(autoincrement())
+  tk_nip                         String                          @db.VarChar(64)
+  tk_tim                         Int                             @db.Int
+  tim                            tbl_tim                         @relation(fields: [tk_tim], references: [tim_id])
+  pegawai                        pegawai                         @relation(fields: [tk_nip], references: [nip])
+}    
+model skp_skp{     
+  id                             Int                             @id @default(autoincrement())
+  sasaran_kinerja                String                          @db.Text
+  indikator                      String                          @db.Text
+  realisasi                      String                          @db.Text
+  umpan_balik                    String                          @db.Text
+  bulan                          String                          @db.VarChar(64)
+  tahun                          Int                             @db.Int
+  jenis                          String                          @db.Text
+  pegawai_nama                   String                          @db.Text
+  pegawai_nip                    String                          @db.VarChar(64)
+  pegawai_gol                    String                          @db.VarChar(64)
+  pegawai_jabatan                String                          @db.Text
+  pegawai_unit                   String                          @db.VarChar(64)
+  pejabat_nama                   String                          @db.Text
+  pejabat_nip                    String                          @db.VarChar(64)
+  pejabat_gol                    String                          @db.VarChar(64)
+  pejabat_jabatan                String                          @db.VarChar(64)
+  pejabat_unit                   String                          @db.VarChar(64)
+  pegawai                        pegawai                         @relation("PegawaiToSkp", fields: [pegawai_nip], references: [nip])
+}    
+model skp_uploadedfile{    
+  id                             Int                             @id @default(autoincrement())
+  file                           String                          @db.Text
+  uploaded_at                    String                          @db.Text
 }
 
 model pegawai{
-  nip                       String                          @id @db.Char(64) // Bisa disesuaikan sesuai format NIP
-  nip_bps                   String                          @db.Char(64) @unique// Bisa disesuaikan sesuai format NIP
-  nama                      String                          @db.Text
-  jabatan                   String                          @db.VarChar(64)
-  wilayah                   String                          @db.VarChar(64)
-  gol_akhir                 String                          @db.VarChar(64)
-  tmt_gol                   String                          @db.VarChar(64)
-  status                    String                          @db.VarChar(64)
-  timkerja                  tbl_timkerja[]
-  skp                       skp_skp[]                       @relation("PegawaiToSkp")
-  ckp                       skp_ckp[]                       @relation("PegawaiToCkp")
-  // ckp                       ckp_ckp[]                       @relation("PegawaiToCkp")
+  nip                            String                          @id @db.Char(64) // Bisa disesuaikan sesuai format NIP
+  nip_bps                        String                          @db.Char(64) @unique// Bisa disesuaikan sesuai format NIP
+  nama                           String                          @db.Text
+  jabatan                        String                          @db.VarChar(64)
+  wilayah                        String                          @db.VarChar(64)
+  gol_akhir                      String                          @db.VarChar(64)
+  tmt_gol                        String                          @db.VarChar(64)
+  status                         String                          @db.VarChar(64)
+  timkerja                       tbl_timkerja[]
+  skp                            skp_skp[]                       @relation("PegawaiToSkp")
+  ckp                            skp_ckp[]                       @relation("PegawaiToCkp")
+  kegiatan                       tbl_kegiatan[]                  @relation("PegawaiToKegiatan")
+  tbl_skp                        tbl_skp[]                       @relation("PegawaiToSkp")
+  pegawai_is_lead                tbl_tim_kerja[]                 @relation("IsLeader")
+  anggota_pegawai                tbl_tim_anggota[]               @relation("AnggotaToPegawai")
 }
 
-// model ckp_ckp{
-//   nip                       String                          @id @db.Char(64) // Bisa disesuaikan sesuai format NIP
-//   nama                      String                          @db.Text
-//   tanggal                   String                          @db.VarChar(64)
-//   kegiatan                  String                          @db.VarChar(64)
-//   capaian                   String                          @db.VarChar(64)
-//   pegawai_nip               String                          @db.VarChar(64)
-
-//   pegawai                   pegawai                         @relation("PegawaiToCkp", fields: [pegawai_nip], references: [nip_bps])
-// }
 
 
 model skp_ckp {
-    id                          BigInt                          @id @default(autoincrement())
-    nip_bps                     String                          @db.VarChar(64)
-    bulan                       String                          @db.VarChar(20)
-    tahun                       String                          @db.VarChar(4)
-    tglMulai                    DateTime                        @db.DateTime(6) @map("tgl_mulai")
-    tglSelesai                  DateTime                        @db.DateTime(6) @map("tgl_selesai")
-    jamMulai                    DateTime                        @db.Time(6) @map("jam_mulai")
-    jamSelesai                  DateTime                        @db.Time(6) @map("jam_selesai")
-    rencanaKinerja              String                          @db.LongText @map("rencana_kinerja")
-    kegiatan                    String                          @db.LongText
-    progress                    Int                             
-    capaian                     String                          @db.LongText
-    dataDukung                  String                          @db.LongText @map("data_dukung")
-    capaianSkp                  String                          @db.VarChar(10) @map("capaian_skp")
-    pegawai                     pegawai                         @relation("PegawaiToCkp", fields: [nip_bps], references: [nip_bps])
+    id                            BigInt                          @id @default(autoincrement())
+    nip_bps                       String                          @db.VarChar(64)
+    bulan                         String                          @db.VarChar(20)
+    tahun                         String                          @db.VarChar(4)
+    tglMulai                      DateTime                        @db.DateTime(6) @map("tgl_mulai")
+    tglSelesai                    DateTime                        @db.DateTime(6) @map("tgl_selesai")
+    jamMulai                      DateTime                        @db.Time(6) @map("jam_mulai")
+    jamSelesai                    DateTime                        @db.Time(6) @map("jam_selesai")
+    rencanaKinerja                String                          @db.LongText @map("rencana_kinerja")
+    kegiatan                      String                          @db.LongText
+    progress                      Int                             
+    capaian                       String                          @db.LongText
+    dataDukung                    String                          @db.LongText @map("data_dukung")
+    capaianSkp                    String                          @db.VarChar(10) @map("capaian_skp")
+    pegawai                       pegawai                         @relation("PegawaiToCkp", fields: [nip_bps], references: [nip_bps])
 }
 
+model tbl_tim_kerja {
+    tim_kode                      String                          @id 
+    tim_nama                      String                          @db.LongText
+    tim_niplama_ketua             String                          @db.VarChar(12)
+    tim_is_penugasan_khusus       String                          @db.VarChar(2)
+    tim_status                    String                          @db.VarChar(100)
+    tim_tanggal_non_aktif         DateTime?                       @db.DateTime(6)
+    tim_jumlah_anggota            Int                        
+    tim_tahun                     String                          @db.VarChar(4)
+    tim_wilayah                   String                          @db.VarChar(4)
+    tim_lead_by                   pegawai                         @relation("IsLeader", fields: [tim_niplama_ketua], references: [nip_bps])
+    tim_member                    tbl_tim_anggota[]               @relation("IsMember")
+}
+
+
+model tbl_kegiatan {
+    keg_id                        BigInt                          @id @default(autoincrement())
+    keg_bulan                     String                          @db.VarChar(20)
+    keg_bulan_id                  String                          @db.VarChar(2)
+    keg_tahun                     String                          @db.VarChar(4)
+    keg_tanggal_awal              DateTime?                       @db.DateTime(6)
+    keg_tanggal_akhir             DateTime?                       @db.DateTime(6)
+    keg_jam_awal                  DateTime?                       @db.Time(6)
+    keg_jam_akhir                 DateTime?                       @db.Time(6)
+    keg_rencana_kinerja           String                          @db.LongText
+    keg_deskripsi                 String?                         @db.LongText
+    keg_progress                  Int                          
+    keg_capaian                   String?                          @db.LongText
+    keg_data_dukung               String?                          @db.LongText
+    keg_is_skp_id                 String?                          @db.VarChar(10)
+    keg_is_skp                    String                          @db.VarChar(10)
+    keg_niplama                   String                          @db.VarChar(10)
+    keg_wilayah                   String                          @db.VarChar(4)
+    pegawai                       pegawai                         @relation("PegawaiToKegiatan", fields: [keg_niplama], references: [nip_bps])
+}
+
+model tbl_tim_anggota {
+    tim_anggota_id                BigInt                          @id @default(autoincrement())
+    tim_anggota_niplama           String                          @db.VarChar(10)
+    tim_anggota_jenis             String                          @db.VarChar(2)
+    tim_anggota_kode_tim          String                          @db.VarChar(100)
+    tim_anggota_tahun             String                          @db.VarChar(4)
+    tim_anggota_wilayah           String                          @db.VarChar(4)
+    tim_which                     tbl_tim_kerja                   @relation("IsMember",fields: [tim_anggota_kode_tim], references: [tim_kode])
+    pegawai                       pegawai                         @relation("AnggotaToPegawai", fields: [tim_anggota_niplama], references: [nip_bps])
+}
+
+
+model tbl_skp{
+    skp_id                        BigInt                          @id @default(autoincrement())
+    skp_periode_awal              DateTime?                       @db.DateTime(6)
+    skp_periode_akhir             DateTime?                       @db.DateTime(6)
+    skp_periode                   String                          @db.VarChar(100)
+    skp_niplama                   String                          @db.VarChar(10)
+    skp_rencana_kinerja           String                          @db.LongText
+    skp_jenis                     String                          @db.LongText
+    skp_tahun                     String                          @db.VarChar(4)
+    skp_wilayah                   String                          @db.VarChar(4)
+    skp_periode_id                String                          @db.VarChar(12)
+    pegawai                       pegawai                         @relation("PegawaiToSkp", fields: [skp_niplama], references: [nip_bps])
+}

@@ -25,6 +25,17 @@ const getAllPegawai = async (req, res) => {
             progress: true,
           },
         },
+        kegiatan: {
+          where: {
+            keg_tanggal_awal: {
+              gte: awalBulanSebelumnya,
+              lte: akhirBulanSebelumnya,
+            },
+          },
+          select: {
+            keg_deskripsi: true,
+          },
+        },
       },
     });
     

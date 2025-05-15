@@ -18,50 +18,85 @@ export default async function handler(req, res) {
       const pegawai = await prisma.pegawai.findUnique({
         where: { nip: id.toString() }, 
         include: {
-            skp:{
-                select: {
-                    id:true,
-                    sasaran_kinerja: true,
-                    indikator: true,
-                    realisasi: true,
-                    bulan: true,
-                    tahun: true,
-                    pegawai_nip: true,
+            timkerja : {
+              include : {
+                tim : {
+                  include : {
+                    timKerja : true
                   }
+                }
+              }
+            },
+            kegiatan:{
+              select: {
+                keg_id:true,
+                keg_bulan:true,
+                keg_tahun:true,
+                keg_tanggal_awal:true,
+                keg_tanggal_akhir:true,
+                keg_deskripsi:true,
+                keg_capaian:true,
+                keg_data_dukung:true,
+              }
+            },
+            tbl_skp: {
+              select: {
+                skp_id: true,
+                skp_rencana_kinerja: true,
+                skp_periode_awal:true,
+                skp_periode_akhir:true,
+                skp_jenis:true,
+                skp_tahun:true,
+                skp_wilayah:true,
+                skp_periode:true
+              }
+            },
+            skp:{
+              select: {
+                  id:true,
+                  sasaran_kinerja: true,
+                  indikator: true,
+                  realisasi: true,
+                  bulan: true,
+                  tahun: true,
+                  pegawai_nip: true,
+                }
             },
             ckp : {
-		select : {
-			nip_bps : true,
-			bulan : true,
-			tahun : true,
-			tglMulai : true,
-			tglSelesai : true,
-			kegiatan : true,
-			capaian : true,
-			dataDukung : true,
-		}
-	    },
-	    timkerja : {
-		include : {
-			tim : {
-				include : {
-					timKerja : true
-				}
-			}
-		}
-	    },
+              select : {
+                nip_bps : true,
+                bulan : true,
+                tahun : true,
+                tglMulai : true,
+                tglSelesai : true,
+                kegiatan : true,
+                capaian : true,
+                dataDukung : true,
+              }
+            },
           },
-      });
+            
+        });
 
-  console.log(pegawai)
+        // Ubah BigInt jadi string
+        const sanitizeBigInt = (obj) => {
+          return JSON.parse(
+            JSON.stringify(obj, (key, value) =>
+              typeof value === "bigint" ? value.toString() : value
+            )
+          );
+        };
 
-      if (!pegawai) {
+        const result = sanitizeBigInt(pegawai);
+
+      if (!result) {
         return res.status(404).json({ message: "Pegawai tidak ditemukan" });
       }
       
 
-      return res.status(200).json(pegawai);
+      return res.status(200).json(result);
     } catch (error) {
+      console.log(error)
       return res.status(500).json({ message: "Terjadi kesalahan saat mengambil data",error });
     }
   } else {

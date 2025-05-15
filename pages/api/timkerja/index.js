@@ -3,7 +3,7 @@ import getAllTimKerja from '../../../controllers/timKerjaControllers';
 
 export default async function handler(req, res) {
   await NextCors(req, res, {
-    origin: ['http://localhost:5173',process.env.ORIGIN_CORS_URL],
+    origin: ['http://localhost:5173',process.env.ORIGIN_CORS_URL,'http://localhost:9202'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, // ✅ Tambahkan ini
   });
