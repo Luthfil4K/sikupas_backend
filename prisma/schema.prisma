@@ -10,7 +10,9 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:@localhost:3306/db_skp"
+  // url      = "mysql://root:@localhost:3306/db_skp"
+  url      = "mysql://apibali:@bps5100!@localhost:3306/db_skp"
+  
 }
 
 
