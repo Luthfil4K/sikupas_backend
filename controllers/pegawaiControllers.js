@@ -5,8 +5,9 @@ const getAllPegawai = async (req, res) => {
 
   const bulanIni = new Date();
 
-  const awalBulanSebelumnya = new Date(bulanIni.getFullYear(), bulanIni.getMonth() - 1, 1);
+  const awalBulanSebelumnya = new Date(bulanIni.getFullYear(), bulanIni.getMonth()-1, 1);
   const akhirBulanSebelumnya = new Date(bulanIni.getFullYear(), bulanIni.getMonth(), 0);
+  akhirBulanSebelumnya.setHours(23,40,50)
   
 
   try {
