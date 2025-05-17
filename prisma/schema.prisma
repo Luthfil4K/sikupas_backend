@@ -10,8 +10,8 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  // url      = "mysql://root:@localhost:3306/db_skp"
-  url      = "mysql://apibali:@bps5100!@localhost:3306/db_skp"
+  url      = "mysql://root:@localhost:3306/db_skp"
+  // url      = "mysql://apibali:@bps5100!@localhost:3306/db_skp"
   
 }
 
@@ -140,7 +140,7 @@ model tbl_tim_anggota {
     tim_anggota_kode_tim          String                          @db.VarChar(100)
     tim_anggota_tahun             String                          @db.VarChar(4)
     tim_anggota_wilayah           String                          @db.VarChar(4)
-    tim_which                     tbl_tim_kerja                   @relation("IsMember",fields: [tim_anggota_kode_tim], references: [tim_kode])
+    tim_which                     tbl_tim_kerja?                  @relation("IsMember",fields: [tim_anggota_kode_tim], references: [tim_kode])
     pegawai                       pegawai?                        @relation("AnggotaToPegawai", fields: [tim_anggota_niplama], references: [nip_bps])
 }
 
