@@ -105,7 +105,7 @@ model tbl_tim_kerja {
     tim_jumlah_anggota            Int                        
     tim_tahun                     String                          @db.VarChar(4)
     tim_wilayah                   String                          @db.VarChar(4)
-    tim_lead_by                   pegawai                         @relation("IsLeader", fields: [tim_niplama_ketua], references: [nip_bps])
+    tim_lead_by                   pegawai?                        @relation("IsLeader", fields: [tim_niplama_ketua], references: [nip_bps])
     tim_member                    tbl_tim_anggota[]               @relation("IsMember")
 }
 
