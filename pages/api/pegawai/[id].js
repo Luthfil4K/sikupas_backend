@@ -48,7 +48,13 @@ export default async function handler(req, res) {
                 skp_jenis:true,
                 skp_tahun:true,
                 skp_wilayah:true,
-                skp_periode:true
+                skp_periode:true,
+                kegiatan:{
+                  select:{
+                    keg_is_skp_id:true,
+                    keg_is_skp:true,
+                  }
+                }
               }
             },
             skp:{
@@ -74,8 +80,26 @@ export default async function handler(req, res) {
                 dataDukung : true,
               }
             },
+            anggota_pegawai: {
+              select:{
+                tim_which: {
+                  select: {
+                    tim_nama: true,
+                    tim_member: {
+                      select:{
+                        pegawai:{
+                          select:{
+                            nip:true,
+                            nama:true,
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
-            
         });
 
         // Ubah BigInt jadi string
