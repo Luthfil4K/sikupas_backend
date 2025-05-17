@@ -65,6 +65,7 @@ model pegawai{
   gol_akhir                      String                          @db.VarChar(64)
   tmt_gol                        String                          @db.VarChar(64)
   status                         String                          @db.VarChar(64)
+  password                       String                          @db.LongText
   timkerja                       tbl_timkerja[]
   skp                            skp_skp[]                       @relation("PegawaiToSkp")
   ckp                            skp_ckp[]                       @relation("PegawaiToCkp")
@@ -121,13 +122,15 @@ model tbl_kegiatan {
     keg_rencana_kinerja           String                          @db.LongText
     keg_deskripsi                 String?                         @db.LongText
     keg_progress                  Int                          
-    keg_capaian                   String?                          @db.LongText
-    keg_data_dukung               String?                          @db.LongText
-    keg_is_skp_id                 String?                          @db.VarChar(10)
+    keg_capaian                   String?                         @db.LongText
+    keg_data_dukung               String?                         @db.LongText
+    keg_is_skp_id                 Int   
     keg_is_skp                    String                          @db.VarChar(10)
     keg_niplama                   String                          @db.VarChar(10)
     keg_wilayah                   String                          @db.VarChar(4)
     pegawai                       pegawai                         @relation("PegawaiToKegiatan", fields: [keg_niplama], references: [nip_bps])
+    tbl_skp                       tbl_skp                         @relation("KegiatanToSkp", fields: [keg_is_skp_id], references: [skp_id])
+
 }
 
 model tbl_tim_anggota {
@@ -143,7 +146,7 @@ model tbl_tim_anggota {
 
 
 model tbl_skp{
-    skp_id                        BigInt                          @id @default(autoincrement())
+    skp_id                        Int                             @id @default(autoincrement())
     skp_periode_awal              DateTime?                       @db.DateTime(6)
     skp_periode_akhir             DateTime?                       @db.DateTime(6)
     skp_periode                   String                          @db.VarChar(100)
@@ -154,4 +157,5 @@ model tbl_skp{
     skp_wilayah                   String                          @db.VarChar(4)
     skp_periode_id                String                          @db.VarChar(12)
     pegawai                       pegawai                         @relation("PegawaiToSkp", fields: [skp_niplama], references: [nip_bps])
+    kegiatan                      tbl_kegiatan[]                  @relation("KegiatanToSkp")
 }
